@@ -33,7 +33,9 @@ public class Systembank {
    System.out.println("su saldo actual "+c1.ObtenerSaldo());
    
    
+   System.out.println("---------------------------------------");
    
+   c1.MostarHistorial();
    
     
     

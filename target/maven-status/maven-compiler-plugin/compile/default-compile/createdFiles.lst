@@ -1,2 +1,3 @@
 com\mycompany\systembank\CuentaBancaria.class
 com\mycompany\systembank\Systembank.class
+com\mycompany\systembank\Transaccion.class
