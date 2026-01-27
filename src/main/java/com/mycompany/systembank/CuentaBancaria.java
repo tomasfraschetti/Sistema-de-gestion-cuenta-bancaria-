@@ -12,8 +12,8 @@ public class CuentaBancaria {
     
     private final String numeroCuenta ; 
     private  final String nombreTitular ; 
-    private double saldo ;
-    private ArrayList<Transaccion> HistorialTransacciones ;
+    protected double saldo ;
+    protected ArrayList<Transaccion> HistorialTransacciones ;
     
     public CuentaBancaria(String numeroCuenta,String nombreTitular){
         this.numeroCuenta = numeroCuenta;
@@ -34,6 +34,10 @@ public class CuentaBancaria {
         return saldo;
     }
     
+    public java.util.List<Transaccion> getListaTransacciones() {
+    return this.HistorialTransacciones;
+     }
+    
     public  void depositar(double cantidad){
         if (cantidad > 0) {
          this.saldo +=  cantidad;
@@ -48,7 +52,7 @@ public class CuentaBancaria {
     }
     
    public void retirar(double cantidad){
-   if (cantidad<saldo){
+   if (cantidad <= saldo){
        this.saldo-= cantidad ;
        this.HistorialTransacciones.add(new Transaccion("retiro",cantidad,LocalDateTime.now()));
        System.out.println("su retiro fue con exito!!!");
@@ -66,7 +70,7 @@ public void MostarHistorial (){
 System.out.println("HISTORIAL DE TRANSACCIONES ");
 
 // creo una condicion donde si la  lista esta vacia devuelve un true
-//y el return dentro de un metodo void corta e bu
+//y el return dentro de un metodo void corta el bucle
 
 if(this.HistorialTransacciones.isEmpty()){
     System.out.println("ERROR: No hay transacciones en esta cuenta");
@@ -78,7 +82,27 @@ if(this.HistorialTransacciones.isEmpty()){
       System.out.println(": "+t);
   }
 }
-
+  
+public void Transferir(double Cantidad ,CuentaBancaria cuentaDestino){
+   // Validar si la cuenta de origen (this) tiene saldo
+    if (Cantidad > 0 && this.saldo >= Cantidad) {
+        
+        this.saldo -= Cantidad;
+        cuentaDestino.saldo += Cantidad;
+        
+        
+        cuentaDestino.depositar(Cantidad);
+        
+        System.out.println("Transferencia realizada con exito a " + cuentaDestino.getNombreTitular());
+        
+        String detalleEnvio = "Transferencia enviada a: " + cuentaDestino.getNombreTitular() + " (Cta: " + cuentaDestino.getNumeroCuenta() + ")";
+        this.HistorialTransacciones.add(new Transaccion("Transferencia enviada", Cantidad, LocalDateTime.now()));
+        
+    } else {
+        System.out.println("Error: Saldo insuficiente o cantidad inválida para transferir.");
+    }
+ 
+}
    
 }
 
